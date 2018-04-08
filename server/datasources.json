@@ -1,0 +1,22 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "email": {
+    "name": "email",
+    "transports": [
+      {
+        "type": "smtp",
+        "host": "mail.company.com",
+        "secure": true,
+        "port": 587,
+        "auth": {
+          "user": "account@company.com",
+          "pass": "password"
+        }
+      }
+    ],
+    "connector": "mail"
+  }
+}

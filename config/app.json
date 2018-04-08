@@ -1,0 +1,7 @@
+{
+  "emails": {
+    "support": "support@company.com",
+    "notification": "no-reply@company.com"
+  },
+  "appUrl":"http://localhost:3004"
+}

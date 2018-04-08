@@ -1,0 +1,160 @@
+{
+  "name": "Customer",
+  "base": "User",
+  "strict": true,
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true,
+    "caseSensitiveEmail": true
+  },
+  "http": {
+    "path": "users"
+  },
+  "hidden": [
+    "password",
+    "verificationToken",
+    "emailVerified"
+  ],
+  "protected": [
+    "password",
+    "verificationToken",
+    "emailVerified"
+  ],
+  "resetPasswordTokenTTL": 900,
+  "properties": {
+    "realm": false,
+    "username": false,
+    "email": {
+      "type": "string",
+      "required": true,
+      "index": {
+        "unique": true
+      },
+      "title": "Email",
+      "example": "larrymiller@gmail.com"
+    },
+    "password": {
+      "type": "string",
+      "required": true
+    },
+    "emailVerified": {
+      "type": "boolean",
+      "title": "Whether account email id is verified or not."
+    },
+    "verificationToken": {
+      "type": "string",
+      "title": "Email verification token"
+    },
+    "Name": {
+      "type": "string",
+      "required": true,
+      "title": "Name",
+      "example": "John Doe"
+    },
+    "dob": {
+      "type": "string",
+      "title": "Date of birth",
+      "example": "06/25/1985"
+    },
+    "gender": {
+      "type": "string",
+      "title": "Gender",
+      "example": "male"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "accessTokens": {
+      "type": "hasMany",
+      "model": "CustomerAccessToken",
+      "foreignKey": "userId",
+      "options": {
+        "disableInclude": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "deleteById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "login"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "logout"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "findById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "patchAttributes"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "replaceById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "verify",
+      "accessType": "EXECUTE"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "confirm"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "resetPassword",
+      "accessType": "EXECUTE"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "changePassword",
+      "accessType": "EXECUTE"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "setPassword",
+      "accessType": "EXECUTE"
+    }
+  ],
+  "methods": {}
+}

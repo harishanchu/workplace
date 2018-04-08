@@ -1,0 +1,15 @@
+{
+  "name": "CustomerAccessToken",
+  "base": "AccessToken",
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "userId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

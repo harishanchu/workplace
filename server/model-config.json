@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "Customer": {
+    "dataSource": "db",
+    "options": {
+      "emailVerificationRequired": true,
+      "remoting": {
+        "sharedMethods": {
+          "login": true,
+          "logout": true,
+          "create": true,
+          "resetPassword": true,
+          "setPassword": true,
+          "changePassword": true,
+          "confirm": true
+        }
+      }
+    }
+  },
+  "CustomerAccessToken": {
+    "dataSource": "db",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "db",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Email": {
+    "dataSource": "email",
+    "public": false
+  }
+}
