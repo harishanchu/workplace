@@ -45,7 +45,7 @@
       "type": "string",
       "title": "Email verification token"
     },
-    "Name": {
+    "name": {
       "type": "string",
       "required": true,
       "title": "Name",

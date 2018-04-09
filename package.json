@@ -1,7 +1,7 @@
 {
   "name": "Workplace",
   "version": "1.0.0",
-  "released" : "2018-04-08",
+  "released": "2018-04-08",
   "main": "server/server.js",
   "engines": {
     "node": ">=4"
