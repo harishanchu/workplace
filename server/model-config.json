@@ -16,6 +16,7 @@
   "Customer": {
     "dataSource": "db",
     "options": {
+      "emailVerificationRequired": true,
       "remoting": {
         "sharedMethods": {
           "login": true,
