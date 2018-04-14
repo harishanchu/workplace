@@ -25,7 +25,8 @@
           "resetPassword": true,
           "setPassword": true,
           "changePassword": true,
-          "confirm": true
+          "confirm": true,
+          "addRole": true
         }
       }
     }
@@ -52,5 +53,46 @@
   "Email": {
     "dataSource": "email",
     "public": false
+  },
+  "TimeSheet": {
+    "dataSource": "db",
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "find": true,
+          "create": true,
+          "prototype.patchAttributes": true,
+          "deleteById": true
+        }
+      }
+    }
+  },
+  "Project": {
+    "dataSource": "db",
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "find": true,
+          "create": true,
+          "prototype.patchAttributes": true,
+          "deleteById": true
+        }
+      }
+    }
+  },
+  "Client": {
+    "dataSource": "db",
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "find": true,
+          "create": true,
+          "prototype.patchAttributes": true,
+          "deleteById": true
+        }
+      }
+    }
   }
 }

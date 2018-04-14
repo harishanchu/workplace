@@ -52,7 +52,7 @@
       "example": "John Doe"
     },
     "dob": {
-      "type": "string",
+      "type": "date",
       "title": "Date of birth",
       "example": "06/25/1985"
     },
@@ -78,6 +78,11 @@
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "super-admin",
+      "permission": "ALLOW"
     },
     {
       "principalType": "ROLE",
@@ -122,11 +127,11 @@
       "property": "replaceById"
     },
     {
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "verify",
-      "accessType": "EXECUTE"
+      "property": "verify"
     },
     {
       "principalType": "ROLE",
@@ -135,26 +140,25 @@
       "property": "confirm"
     },
     {
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$everyone",
       "permission": "ALLOW",
-      "property": "resetPassword",
-      "accessType": "EXECUTE"
+      "property": "resetPassword"
     },
     {
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW",
-      "property": "changePassword",
-      "accessType": "EXECUTE"
+      "property": "changePassword"
     },
     {
+      "accessType": "EXECUTE",
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW",
-      "property": "setPassword",
-      "accessType": "EXECUTE"
+      "property": "setPassword"
     }
-  ],
-  "methods": {}
+  ]
 }

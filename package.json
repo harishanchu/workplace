@@ -18,6 +18,7 @@
     "loopback": "^3.0.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^5.0.0",
+    "loopback-connector-mysql": "^5.2.0",
     "nodejs-config": "^1.0.1",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0"
