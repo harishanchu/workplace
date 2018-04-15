@@ -7,14 +7,6 @@
     "validateUpsert": true
   },
   "properties": {
-    "taskId": {
-      "type": "number",
-      "required": true
-    },
-    "userId": {
-      "type": "number",
-      "required": true
-    },
     "status": {
       "type": "string",
       "default": "completed"
@@ -23,9 +15,18 @@
       "type": "number",
       "required": true
     },
-    "created": {
+    "date": {
       "type": "Date",
-      "defaultFn": "now"
+      "defaultFn": "now",
+      "mysql": {
+        "dataType":"Date"
+      }
+    },
+    "taskId": {
+      "required": true
+    },
+    "userId": {
+      "required": true
     }
   },
   "validations": [],
@@ -62,12 +63,6 @@
       "principalType": "ROLE",
       "principalId": "admin",
       "permission": "ALLOW"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$authenticated",
-      "permission": "ALLOW",
-      "property": "create"
     },
     {
       "principalType": "ROLE",

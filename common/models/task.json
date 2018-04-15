@@ -11,8 +11,14 @@
       "type": "string",
       "required": true
     },
-    "projectId": {
+    "status": {
       "type": "string",
+      "default": "open"
+    },
+    "projectId": {
+      "required": true
+    },
+    "userId": {
       "required": true
     }
   },
@@ -30,6 +36,14 @@
       "type": "hasMany",
       "model": "TimeSheet",
       "foreignKey": "taskId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "userId",
       "options": {
         "nestRemoting": true
       }

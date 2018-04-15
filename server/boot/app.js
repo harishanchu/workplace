@@ -27,6 +27,22 @@ module.exports = (app, cb) => {
     app.set('url', process.env.APP_URL);
   }
 
+  /**
+   * Replace "me" in id path parameter of instance methods to user id if user is logged in.
+   */
+  Object.keys(app.models).forEach(function (key) {
+    app.models[key].sharedCtor.accepts[0].http = function (ctx) {
+      var req = ctx.req;
+
+      if (req.params.id === "me" && req.accessToken) {
+        return req.accessToken.userId.toString();
+      } else {
+        return req.params.id;
+      }
+    }
+  });
+
+
 
   migrate(function () {
     createAdminUser(function () {

@@ -27,7 +27,8 @@
           "changePassword": true,
           "confirm": true,
           "addRole": true,
-          "prototype.__get__timeSheets": true
+          "prototype.__get__timeSheets": true,
+          "prototype.__create__timeSheets": true
         }
       }
     }

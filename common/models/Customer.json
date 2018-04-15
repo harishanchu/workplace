@@ -77,6 +77,17 @@
       "model": "TimeSheet",
       "foreignKey": "userId",
       "options": {
+        "disableInclude": false,
+        "http": {
+          "path": "time-sheets"
+        }
+      }
+    },
+    "tasks": {
+      "type": "hasMany",
+      "model": "Task",
+      "foreignKey": "userId",
+      "options": {
         "disableInclude": false
       }
     }
@@ -167,6 +178,18 @@
       "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "setPassword"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__get__timeSheets"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__create__timeSheets"
     }
   ],
   "methods": {}
