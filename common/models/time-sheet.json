@@ -7,11 +7,11 @@
     "validateUpsert": true
   },
   "properties": {
-    "projectId": {
+    "taskId": {
       "type": "number",
       "required": true
     },
-    "taskId": {
+    "userId": {
       "type": "number",
       "required": true
     },
@@ -23,16 +23,25 @@
       "type": "number",
       "required": true
     },
-    "comment": {
-      "type": "string"
+    "created": {
+      "type": "Date",
+      "defaultFn": "now"
     }
   },
   "validations": [],
   "relations": {
-    "project": {
+    "task": {
       "type": "belongsTo",
-      "model": "Project",
-      "foreignKey": "projectId",
+      "model": "Task",
+      "foreignKey": "taskId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "user": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": "userId",
       "options": {
         "nestRemoting": true
       }

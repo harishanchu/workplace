@@ -21,9 +21,9 @@
   },
   "validations": [],
   "relations": {
-    "timeSheets": {
+    "tasks": {
       "type": "hasMany",
-      "model": "TimeSheet",
+      "model": "Task",
       "foreignKey": "projectId",
       "options": {
         "nestRemoting": true
@@ -46,7 +46,7 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "$everyone",
+      "principalId": "$authenticated",
       "permission": "ALLOW",
       "property": "find"
     },

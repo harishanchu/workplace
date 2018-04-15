@@ -1,26 +1,35 @@
 {
-  "name": "Client",
-  "plural": "clients",
+  "name": "Task",
+  "plural": "tasks",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
     "validateUpsert": true
   },
   "properties": {
-    "name": {
+    "comment": {
       "type": "string",
-      "required": true,
-      "index": {
-        "unique": true
-      }
+      "required": true
+    },
+    "projectId": {
+      "type": "string",
+      "required": true
     }
   },
   "validations": [],
   "relations": {
-    "projects": {
-      "type": "hasMany",
+    "project": {
+      "type": "belongsTo",
       "model": "Project",
-      "foreignKey": "clientId",
+      "foreignKey": "projectId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "timeSheets": {
+      "type": "hasMany",
+      "model": "TimeSheet",
+      "foreignKey": "taskId",
       "options": {
         "nestRemoting": true
       }

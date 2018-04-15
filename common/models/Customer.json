@@ -71,6 +71,14 @@
       "options": {
         "disableInclude": true
       }
+    },
+    "timeSheets": {
+      "type": "hasMany",
+      "model": "TimeSheet",
+      "foreignKey": "userId",
+      "options": {
+        "disableInclude": false
+      }
     }
   },
   "acls": [
@@ -160,5 +168,6 @@
       "permission": "ALLOW",
       "property": "setPassword"
     }
-  ]
+  ],
+  "methods": {}
 }

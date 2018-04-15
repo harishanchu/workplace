@@ -26,7 +26,8 @@
           "setPassword": true,
           "changePassword": true,
           "confirm": true,
-          "addRole": true
+          "addRole": true,
+          "prototype.__get__timeSheets": true
         }
       }
     }
@@ -94,5 +95,9 @@
         }
       }
     }
+  },
+  "Task": {
+    "dataSource": "db",
+    "public": true
   }
 }
