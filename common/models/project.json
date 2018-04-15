@@ -24,7 +24,7 @@
     "timeSheets": {
       "type": "hasMany",
       "model": "TimeSheet",
-      "foreignKey": "timesheetId",
+      "foreignKey": "projectId",
       "options": {
         "nestRemoting": true
       }
