@@ -19,7 +19,7 @@
       "emailVerificationRequired": false,
       "remoting": {
         "sharedMethods": {
-          "login": true,
+          "*": true,
           "logout": true,
           "create": true,
           "resetPassword": true,
@@ -28,7 +28,12 @@
           "confirm": true,
           "addRole": true,
           "prototype.__get__timeSheets": true,
-          "prototype.__create__timeSheets": true
+          "prototype.__create__timeSheets": true,
+          "prototype.__updateById__timeSheets": true,
+          "prototype.__destroyById__timeSheets": true,
+          "prototype.__get__tasks": true,
+          "prototype.__create__tasks": true,
+          "prototype.__updateById__tasks": true
         }
       }
     }

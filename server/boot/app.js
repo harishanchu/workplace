@@ -32,9 +32,9 @@ module.exports = (app, cb) => {
    */
   Object.keys(app.models).forEach(function (key) {
     app.models[key].sharedCtor.accepts[0].http = function (ctx) {
-      var req = ctx.req;
+      let req = ctx.req;
 
-      if (req.params.id === "me" && req.accessToken) {
+      if (req.params.id === 'me' && req.accessToken) {
         return req.accessToken.userId.toString();
       } else {
         return req.params.id;

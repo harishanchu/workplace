@@ -2,42 +2,33 @@
 
 module.exports = function (Timesheet) {
 
-  /*--------------------------
+  /* --------------------------
    * Validations
    * -------------------------
    */
 
-  Timesheet.validatesInclusionOf('status', {in: ["completed", "inProgress"]});
+  Timesheet.validatesInclusionOf('status', {in: ['completed', 'inProgress']});
 
-  Timesheet.observe('before save', function filterProperties(ctx, next) {
-    let data = ctx.instance;
-    // If task id is present check whether task belongs  to ctx user.
-    if (data.taskId) {
-      if (data.status === completed) {
-        return data.task.update({status: 'closed'}).then(task => next()).catch(err => next(err))
-      } else {
-        next();
-      }
+  // @todo: add validation to check presense of either task id or task;
+
+  /* --------------------------
+   * Operation hooks
+   * -------------------------
+   */
+
+  Timesheet.observe('after save', function filterProperties(ctx, next) {
+    let status;
+
+    // Change the status of the task based on timesheet status.
+    if (ctx.instance.status === 'completed') {
+      status = 'closed';
     } else {
-      let taskData = {
-        comment: data.comment,
-        projectId: data.projectId,
-        userId: ctx.options.accessToken.userId
-      };
-
-      if (data.status === 'completed') {
-        taskData.status = "closed";
-      }
-
-      ctx.instance.task.create(taskData).then(function (task) {
-        delete data.comment;
-        delete data.projectId;
-
-        next();
-      }).catch(function (err) {
-        next(err);
-      });
+      status = 'open';
     }
+
+    ctx.instance.task.update({status}, function (err) {
+      next(err);
+    });
   });
 
 };
