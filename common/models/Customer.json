@@ -100,7 +100,7 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "super-admin",
+      "principalId": "admin",
       "permission": "ALLOW"
     },
     {

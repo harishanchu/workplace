@@ -8,6 +8,7 @@
 'use strict';
 
 module.exports = function (Customer) {
+  let RoleMapping = require('loopback').RoleMapping;
 
   /* -------------------------
    *  API's
@@ -25,13 +26,23 @@ module.exports = function (Customer) {
       // userId attribute since user information object already
       // contains it.
       if (token) {
-        token = token.toJSON();
-        token.accessToken = token.id;
-        delete token.id;
-        delete token.userId;
-      }
+        // Send roles along with user information
+        RoleMapping.find({where: {principalType: 'USER', principalId: token.userId}, include: 'role'})
+          .then(function (roleMapping) {
+            token = token.toJSON();
+            token.user.roles = roleMapping.map(function (roleMap) {
+              return roleMap.toObject()['role']['name'];
+            });
+            token.accessToken = token.id;
+            delete token.id;
+            delete token.userId;
 
-      fn(err, token);
+            fn(err, token);
+          })
+          .catch(fn);
+      } else {
+        fn(err);
+      }
     });
   };
 
@@ -46,7 +57,7 @@ module.exports = function (Customer) {
     Customer.findById(userId, function (err, user) {
       if (err) {
         return callback(err);
-      } else if(!user) {
+      } else if (!user) {
         let err = new Error(g.f('User not found'));
         err.statusCode = 400;
         err.code = 'USER_NOT_FOUND';

@@ -43,7 +43,6 @@ module.exports = (app, cb) => {
   });
 
 
-
   migrate(function () {
     createAdminUser(function () {
       createClientsAndProjects(cb);
@@ -69,7 +68,7 @@ module.exports = (app, cb) => {
    * Create super admin user.
    */
   function createAdminUser(cb) {
-    Customer.findOne({email: 'workplace-admin@company.com'}, function (err, user) {
+    Customer.findOne({where: {email: 'workplace-admin@company.com'}}, function (err, user) {
       if (err) {
         return cb(err);
       } else if (user) {
@@ -88,7 +87,7 @@ module.exports = (app, cb) => {
 
             // Create the super admin role
             Role.create(
-              {name: 'super-admin'},
+              {name: 'admin'},
               function (err, role) {
                 if (err) cb(err);
 
@@ -114,7 +113,7 @@ module.exports = (app, cb) => {
    * @param cb
    */
   function createClientsAndProjects(cb) {
-    app.models.Client.findOne({name: "Internal"}, function (err, client) {
+    app.models.Client.findOne({where: {name: "Internal"}}, function (err, client) {
       if (err) {
         return cb(err);
       } else if (client) {

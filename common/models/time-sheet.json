@@ -56,11 +56,6 @@
     },
     {
       "principalType": "ROLE",
-      "principalId": "super-admin",
-      "permission": "ALLOW"
-    },
-    {
-      "principalType": "ROLE",
       "principalId": "admin",
       "permission": "ALLOW"
     },
