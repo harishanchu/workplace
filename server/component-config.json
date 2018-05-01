@@ -2,5 +2,11 @@
   "loopback-component-explorer": {
     "mountPath": "/explorer",
     "generateOperationScopedModels": true
+  },
+  "./components/total-count": {
+    "pattern": [
+      "**.__get__timeSheets"
+    ]
   }
+
 }
