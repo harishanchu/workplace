@@ -9,7 +9,8 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node .",
-    "posttest": "npm run lint && nsp check"
+    "posttest": "npm run lint && nsp check",
+    "console": "loopback-console"
   },
   "dependencies": {
     "compression": "^1.0.3",
@@ -19,6 +20,7 @@
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^5.0.0",
     "loopback-connector-mysql": "^5.2.0",
+    "loopback-console": "^1.1.0",
     "nodejs-config": "^1.0.1",
     "serve-favicon": "^2.0.1",
     "strong-error-handler": "^2.0.0"

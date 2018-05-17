@@ -5,7 +5,8 @@
   },
   "./components/total-count": {
     "pattern": [
-      "**.__get__timeSheets"
+      "**.__get__timeSheets",
+      "**.find"
     ]
   }
 
