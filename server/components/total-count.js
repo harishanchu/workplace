@@ -10,8 +10,8 @@ module.exports = function (app, options) {
     }
 
     if (!ctx.res._headerSent) {
-      let countCallback = function (err, count) {console.log(arguments)
-        ctx.res.set('X-Total-Count', count);
+      let countCallback = function (err, count) {
+        ctx.res.set('x-total-count', count);
         next();
       };
 

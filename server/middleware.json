@@ -8,7 +8,8 @@
       "params": {
         "origin": true,
         "credentials": true,
-        "maxAge": 86400
+        "maxAge": 86400,
+        "exposedHeaders": ["x-total-count"]
       }
     },
     "helmet#xssFilter": {},
