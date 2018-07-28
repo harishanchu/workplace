@@ -7,7 +7,7 @@
     "validateUpsert": true
   },
   "properties": {
-    "comment": {
+    "description": {
       "type": "string",
       "required": true
     },

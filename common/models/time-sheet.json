@@ -22,6 +22,9 @@
         "dataType":"Date"
       }
     },
+    "comment": {
+      "type": "string"
+    },
     "taskId": {
       "required": true
     },
