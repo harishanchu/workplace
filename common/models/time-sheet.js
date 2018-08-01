@@ -1,4 +1,5 @@
 'use strict';
+const utilities = require('../../util/utilities');
 
 module.exports = function (Timesheet) {
 
@@ -31,4 +32,56 @@ module.exports = function (Timesheet) {
     });
   });
 
+  /*-------------------------
+   *  API's
+   * -------------------------
+   */
+  Timesheet.on('attached', function () {
+    Timesheet._oldFind = Timesheet.find;
+
+    // Override find method to to handle download requests
+    Timesheet.find = function (query, options, download, res, cb) {
+      this._oldFind.call(this, query, options, function (err, data) {
+        if (err) {
+          utilities.handleError(err, cb);
+        } else if (download) {
+          const fields = [
+            {
+              label: 'client',
+              value: (row, field) => {
+                return utilities.objectGet(row, 'task.project.client.name');
+              },
+            },
+            'project',
+            'status',
+            'duration',
+          ];
+          const csv = utilities.parseJsonToCsv(data, fields);
+
+          utilities.sendFileResponse(res, csv, 'attachment;filename=Data.csv');
+        } else {
+          cb(false, data);
+        }
+      });
+    };
+  });
+
+  /*---------------------------------
+   * Remote methods
+   * --------------------------------
+   */
+
+  // Alter find method
+  Timesheet.sharedClass.findMethodByName('find').accepts.push({
+    arg: 'download',
+    type: 'boolean',
+    description: 'Whether response should be send as csv file',
+    default: false,
+    http: {source: 'query'}
+  });
+  Timesheet.sharedClass.findMethodByName('find').accepts.push({
+    arg: 'res',
+    type: 'object',
+    'http': {source: 'res'}
+  });
 };
