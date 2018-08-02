@@ -7,16 +7,24 @@
     "validateUpsert": true
   },
   "properties": {
+    "id": {
+      "type": "number",
+      "generated": true,
+      "id": true
+    },
     "clientId": {
       "type": "number",
       "required": true
     },
     "name": {
       "type": "string",
-      "required": true,
-      "index": {
-        "unique": true
-      }
+      "required": true
+    }
+  },
+  "indexes": {
+    "UNIQUE_INDEX":  {
+      "columns": "`clientId`,`name`",
+      "kind": "unique"
     }
   },
   "validations": [],
