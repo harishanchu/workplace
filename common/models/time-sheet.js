@@ -32,29 +32,32 @@ module.exports = function (Timesheet) {
     });
   });
 
-  /*-------------------------
+  /* -------------------------
    *  API's
    * -------------------------
    */
   Timesheet.download = function (query, res, cb) {
-    if(query === undefined) {
+    if (query === undefined) {
       query = {
-        "order": ["date asc", "user.id asc"],
-        "include": [{"task": {"project": "client"}},"user"],
-        "where": {"user": {}} // for order by to work
+        'order': ['date asc', 'user.id asc'],
+        'include': [{'task': {'project': 'client'}}, 'user'],
+        'where': {'user': {}}, // for order by to work
       };
     }
     if (typeof res === 'function') {
       cb = res;
       res = query;
       query = {
-        "order": "user.id asc",
-        "include": [{"task": {"project": "client"}},"user"],
-        "where": {"user": {}} // for order by to work
+        'order': 'user.id asc',
+        'include': [{'task': {'project': 'client'}}, 'user'],
+        'where': {'user': {}} // for order by to work
       };
     }
 
     Timesheet.find(query, function (err, data) {
+      if (err)
+        return cb(err);
+
       data = data.map(item => item.toJSON());
 
       if (err) {
@@ -103,7 +106,7 @@ module.exports = function (Timesheet) {
           },
           {
             label: 'status',
-            value: (row, field) => row.status === "completed" ? "Completed" : "In Progress",
+            value: (row, field) => row.status === 'completed' ? 'Completed' : 'In Progress',
           },
           {
             label: 'Duration',
@@ -118,7 +121,7 @@ module.exports = function (Timesheet) {
   }
   ;
 
-  /*---------------------------------
+  /* ---------------------------------
    * Remote methods
    * --------------------------------
    */
@@ -127,70 +130,17 @@ module.exports = function (Timesheet) {
       {
         arg: 'filter',
         type: 'object',
-        description: 'Filter defining fields, where, include, order, offset, and limit - ' +
-        'must be a JSON-encoded string ({"something":"value"})'
+        description: 'Filter defining fields, where, include, order, offset, ' +
+        'and limit - must be a JSON-encoded string ({"something":"value"})',
       },
-      {arg: 'res', type: 'object', http: {source: 'res'}}
+      {arg: 'res', type: 'object', http: {source: 'res'}},
     ],
     returns: [
-      {type: 'file', root: true}
+      {type: 'file', root: true},
     ],
     description: 'Time sheets download',
     accessType: 'READ',
     http: {verb: 'get', path: '/download'},
   });
-
-
-  /*Timesheet.on('attached', function () {
-    Timesheet._oldFind = Timesheet.find;
-
-    // Override find method to to handle download requests
-    Timesheet.find = function (query, options, res, cb) {
-      if(res === undefined) {
-
-      }
-      if (cb === undefined) {
-        cb = res;
-      }
-
-      this._oldFind.call(this, query, options, function (err, data) {
-        if (err) {
-          utilities.handleError(err, cb);
-        } else if (download) {
-          const fields = [
-            {
-              label: 'client',
-              value: (row, field) => {
-                return utilities.objectGet(row, 'task.project.client.name');
-              },
-            },
-            'project',
-            'status',
-            'duration',
-          ];
-          const csv = utilities.parseJsonToCsv(data, fields);
-
-          utilities.sendFileResponse(res, csv, 'attachment;filename=Data.csv');
-        } else {
-          cb(false, data);
-        }
-      });
-    };
-  });*/
-
-
-// Alter find method
-  /*Timesheet.sharedClass.findMethodByName('find').accepts.push({
-    arg: 'download',
-    type: 'boolean',
-    description: 'Whether response should be send as csv file',
-    default: false,
-    http: {source: 'query'}
-  });*/
-  /*Timesheet.sharedClass.findMethodByName('find').accepts.push({
-    arg: 'res',
-    type: 'object',
-    'http': {source: 'res'}
-  });*/
 }
 ;
