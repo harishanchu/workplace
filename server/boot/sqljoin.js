@@ -224,9 +224,9 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
   MySQL.prototype.buildJoins = function (model, where, tableAlias) {
     var self = this;
     var props = self.getModelDefinition(model).properties;
-
     var aliases = {};
     var joinStmts = [];
+
     for (var key in where) {
       // Handle and/or operators
       if (key === 'and' || key === 'or') {
@@ -333,26 +333,46 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
     var columnNames = [];
     for (var i = 0, n = order.length; i < n; i++) {
       var t = order[i].split(/[\s,]+/);
-      if (t.length === 1) {
-        clauses.push(self.columnEscaped(model, order[i]));
-      } else {
         var key = t[0];
         if (key.indexOf('.') > -1) {
           const modelAndProperty = key.split('.');
-          const relations = this.getModelDefinition(model).settings.relations;
-          if (relations && relations[modelAndProperty[0]]) {
-            let relation = relations[modelAndProperty[0]];
-            const alias = aliases[relation.model];if(key == "task.status") console.log(alias)
+
+          let relations;
+          let relatedModel = model;
+          for (var j=0; j < (modelAndProperty.length - 1); j++) {
+            relations = this.getModelDefinition(relatedModel).settings.relations
+            let relationKey = modelAndProperty[j];
+
+            if(relations && relations[relationKey]) {
+              relatedModel = relations[relationKey].model;
+            } else {
+              relatedModel = false
+              break;
+            }
+          }
+
+          let relatedProperty = modelAndProperty[j];
+
+          if (relatedModel) {
+            const alias = aliases[relatedModel];
             if (alias) {
-              clauses.push(alias + '.' + modelAndProperty[1] + ' ' + t[1]);
-              columnNames.push(alias + '.' + modelAndProperty[1] +
-                ' as ' + alias + '_orderBy' + modelAndProperty[1]);
+              if(t.length > 1) {
+                clauses.push(alias + '.' + relatedProperty + ' ' + t[1]);
+              } else {
+                clauses.push(alias + '.' + relatedProperty);
+              }
+
+              columnNames.push(alias + '.' + relatedProperty +
+                ' as ' + alias + '_orderBy' + relatedProperty);
             }
           }
         } else {
-          clauses.push(self.columnEscaped(model, t[0]) + ' ' + t[1]);
+          if(t.length > 1) {
+            clauses.push(self.columnEscaped(model, t[0]) + ' ' + t[1]);
+          } else {
+            clauses.push(self.columnEscaped(model, order[i]))
+          }
         }
-      }
     }
     var result = {
       orderBy: clauses.length > 0 ? 'ORDER BY ' + clauses.join(',') : '',
