@@ -11,6 +11,7 @@ const MySQL = require('loopback-connector-mysql').MySQL;
 const SqlConnector = require('loopback-connector').SqlConnector;
 const ParameterizedSQL = SqlConnector.ParameterizedSQL;
 const debug = require('debug')('loopback:connector:mysql');
+const utilities = require('../../util/utilities');
 
 /**
  * Adds inner join support to loopback-connector-mysql
@@ -40,14 +41,34 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
 
     if (filter) {
       let aliases = {};
-      if (filter.where) {
-        var joins = this.buildJoins(model, filter.where, tableAlias);
-        if (joins.joinStmt.sql) {
-          aliases = joins.aliases;
-          selectStmt.sql = selectStmt.sql.replace('SELECT', 'SELECT DISTINCT ' +
-            tableAlias + '.id, ');
-          selectStmt.merge(joins.joinStmt);
+      let relationsToBeBuiltForOrderBy = {};
+
+      if (filter.order) {
+        let order = filter.order;
+
+        if (typeof filter.order === 'string') {
+          order = [filter.order];
         }
+
+        for (let i = 0, n = order.length; i < n; i++) {
+          let t = order[i].split(/[\s,]+/);
+
+          if (t[0].indexOf('.') > 1) {
+            utilities.objectSet(relationsToBeBuiltForOrderBy, t[0], {});
+          }
+        }
+      }
+
+      let filterWhere = utilities.assignDeep(relationsToBeBuiltForOrderBy, filter.where);
+      var joins = this.buildJoins(model, filterWhere, tableAlias);
+      if (joins && joins.joinStmt.sql) {
+        aliases = joins.aliases;
+        selectStmt.sql = selectStmt.sql.replace('SELECT', 'SELECT DISTINCT ' +
+          tableAlias + '.id, ');
+        selectStmt.merge(joins.joinStmt);
+      }
+
+      if (filter.where) {
         var whereStmt = this.buildWhere(model, filter.where, tableAlias, aliases);
         selectStmt.merge(whereStmt);
       }
@@ -227,6 +248,10 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
     var aliases = {};
     var joinStmts = [];
 
+    if (!where) {
+      return false;
+    }
+
     for (var key in where) {
       // Handle and/or operators
       if (key === 'and' || key === 'or') {
@@ -237,10 +262,12 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
         if (Array.isArray(clauses)) {
           for (var i = 0, n = clauses.length; i < n; i++) {
             var stmtForClause = self.buildJoins(model, clauses[i], tableAlias, aliases);
-            aliases = Object.assign(aliases, stmtForClause.aliases);
-            if (stmtForClause.joinStmt.sql) {
-              branchParams = branchParams.concat(stmtForClause.joinStmt.params);
-              branches.push(stmtForClause.joinStmt.sql);
+            if (stmtForClause) {
+              aliases = Object.assign(aliases, stmtForClause.aliases);
+              if (stmtForClause.joinStmt.sql) {
+                branchParams = branchParams.concat(stmtForClause.joinStmt.params);
+                branches.push(stmtForClause.joinStmt.sql);
+              }
             }
           }
           stmt.merge({
@@ -289,8 +316,10 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
           }
           var recursiveResult = self.buildJoins(relation.model, where[key],
             childTableAlias);
-          join.merge(recursiveResult.joinStmt);
-          aliases = Object.assign(aliases, recursiveResult.aliases);
+          if (recursiveResult) {
+            join.merge(recursiveResult.joinStmt);
+            aliases = Object.assign(aliases, recursiveResult.aliases);
+          }
           joinStmts.push(join);
         } else {
           // Unknown property, ignore it
@@ -333,46 +362,46 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
     var columnNames = [];
     for (var i = 0, n = order.length; i < n; i++) {
       var t = order[i].split(/[\s,]+/);
-        var key = t[0];
-        if (key.indexOf('.') > -1) {
-          const modelAndProperty = key.split('.');
+      var key = t[0];
+      if (key.indexOf('.') > -1) {
+        const modelAndProperty = key.split('.');
 
-          let relations;
-          let relatedModel = model;
-          for (var j=0; j < (modelAndProperty.length - 1); j++) {
-            relations = this.getModelDefinition(relatedModel).settings.relations
-            let relationKey = modelAndProperty[j];
+        let relations;
+        let relatedModel = model;
+        for (var j = 0; j < (modelAndProperty.length - 1); j++) {
+          relations = this.getModelDefinition(relatedModel).settings.relations
+          let relationKey = modelAndProperty[j];
 
-            if(relations && relations[relationKey]) {
-              relatedModel = relations[relationKey].model;
-            } else {
-              relatedModel = false
-              break;
-            }
-          }
-
-          let relatedProperty = modelAndProperty[j];
-
-          if (relatedModel) {
-            const alias = aliases[relatedModel];
-            if (alias) {
-              if(t.length > 1) {
-                clauses.push(alias + '.' + relatedProperty + ' ' + t[1]);
-              } else {
-                clauses.push(alias + '.' + relatedProperty);
-              }
-
-              columnNames.push(alias + '.' + relatedProperty +
-                ' as ' + alias + '_orderBy' + relatedProperty);
-            }
-          }
-        } else {
-          if(t.length > 1) {
-            clauses.push(self.columnEscaped(model, t[0]) + ' ' + t[1]);
+          if (relations && relations[relationKey]) {
+            relatedModel = relations[relationKey].model;
           } else {
-            clauses.push(self.columnEscaped(model, order[i]))
+            relatedModel = false
+            break;
           }
         }
+
+        let relatedProperty = modelAndProperty[j];
+
+        if (relatedModel) {
+          const alias = aliases[relatedModel];
+          if (alias) {
+            if (t.length > 1) {
+              clauses.push(alias + '.' + relatedProperty + ' ' + t[1]);
+            } else {
+              clauses.push(alias + '.' + relatedProperty);
+            }
+
+            columnNames.push(alias + '.' + relatedProperty +
+              ' as ' + alias + '_orderBy' + relatedProperty);
+          }
+        }
+      } else {
+        if (t.length > 1) {
+          clauses.push(self.columnEscaped(model, t[0]) + ' ' + t[1]);
+        } else {
+          clauses.push(self.columnEscaped(model, order[i]))
+        }
+      }
     }
     var result = {
       orderBy: clauses.length > 0 ? 'ORDER BY ' + clauses.join(',') : '',
@@ -452,7 +481,7 @@ module.exports = function modifyLoopbackMySQLConnector(server) {
       this.tableEscaped(model) + ' ' + tableAlias + ' ');
     var joins = this.buildJoins(model, where, tableAlias);
     var aliases = {};
-    if (joins.joinStmt.sql) {
+    if (joins && joins.joinStmt.sql) {
       stmt.sql = stmt.sql.replace('count(*)', 'COUNT(DISTINCT ' + tableAlias + '.id)');
       stmt.merge(joins.joinStmt);
       aliases = joins.aliases;

@@ -1,13 +1,16 @@
 const g = require('loopback/lib/globalize');
 const Json2csvParser = require('json2csv').Parser;
+const assignDeep = require("assign-deep");
 
 const utilities = {
   regexes: {
     alphanumeric: /^[a-zA-Z0-9]+$/,
     alphanumericWithSpace: /^[\w\-\s]+$/,
     phone: /^\d{10}$/,
-    last4SSN: /^\d{4}$/
+    last4SSN: /^\d{4}$/,
   },
+
+  assignDeep: assignDeep,
 
   handleError: (error, cb) => {
     if (error instanceof Error) {
@@ -69,11 +72,32 @@ const utilities = {
   },
 
   /**
+   * Set an object key value where key specified in dot notation.
+   *
+   * @param obj
+   * @param path
+   * @param value
+   */
+  objectSet: function (obj, path, value) {
+    if (typeof(path) === 'string') {
+      path = path.split('.');
+    }
+    if (!utilities.isset(obj[path[0]])) {
+      obj[path[0]] = {};
+    }
+    if (path.length > 1) {
+      utilities.objectSet(obj[path.shift()], path, value);
+    } else {
+      obj[path[0]] = value;
+    }
+  },
+
+  /**
    * Checks whether given value is null or undefined.
    *
    * @returns {boolean}
    */
-  isset: () => {
+  isset: (...args) => {
     //  discuss at: http://phpjs.org/functions/isset/
     // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
     // improved by: FremyCompany
@@ -84,7 +108,7 @@ const utilities = {
     //   example 2: isset( 'Kevin van Zonneveld' );
     //   returns 2: true
 
-    let a = arguments;
+    let a = args;
     let l = a.length;
     let i = 0;
     let undef;
@@ -101,7 +125,7 @@ const utilities = {
     }
 
     return true;
-  }
+  },
 };
 
 module.exports = utilities;
