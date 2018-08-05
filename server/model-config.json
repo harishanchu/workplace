@@ -105,6 +105,13 @@
   },
   "Task": {
     "dataSource": "db",
-    "public": true
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "types": true
+        }
+      }
+    }
   }
 }

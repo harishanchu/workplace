@@ -14,11 +14,11 @@
  * @param cb
  */
 module.exports = (app, cb) => {
-
   let loopback = require('loopback');
   let Customer = app.models.Customer;
   let Role = app.models.Role;
   let RoleMapping = loopback.RoleMapping;
+  let defaultAdminEmail = app.config.get('app').defaultAdminEmail;
 
   /**
    * Set application public url.
@@ -68,7 +68,7 @@ module.exports = (app, cb) => {
    * Create super admin user.
    */
   function createAdminUser(cb) {
-    Customer.findOne({where: {email: 'workplace-admin@company.com'}}, function (err, user) {
+    Customer.findOne({where: {email: defaultAdminEmail}}, function (err, user) {
       if (err) {
         return cb(err);
       } else if (user) {
@@ -78,8 +78,8 @@ module.exports = (app, cb) => {
         // Create admin user
         Customer.create(
           {
-            name: 'Admin', email: 'workplace-admin@company.com',
-            password: 'password',
+            name: 'Admin', email: defaultAdminEmail,
+            password: process.env.WORKPLACE_ADMIN_PASSWORD || 'password',
             emailVerified: true
           },
           function (err, user) {
@@ -132,4 +132,6 @@ module.exports = (app, cb) => {
     });
 
   }
+
+  app.set('url', app.config.get('app').appUrl);
 };

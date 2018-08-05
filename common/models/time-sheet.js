@@ -97,6 +97,10 @@ module.exports = function (Timesheet) {
             value: 'taskId',
           },
           {
+            label: 'Task Type',
+            value: 'task.type',
+          },
+          {
             label: 'Task Description',
             value: 'task.description',
           },
@@ -117,9 +121,8 @@ module.exports = function (Timesheet) {
 
         utilities.sendFileResponse(res, csv, 'attachment;filename=Data.csv');
       }
-    })
-  }
-  ;
+    });
+  };
 
   /* ---------------------------------
    * Remote methods

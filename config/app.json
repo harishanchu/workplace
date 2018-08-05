@@ -3,5 +3,11 @@
     "support": "support@company.com",
     "notification": "no-reply@company.com"
   },
-  "appUrl":"http://localhost:3004"
+  "appUrl": "http://localhost:3004",
+  "taskTypes": [
+    "Enhancement",
+    "Bug",
+    "Other"
+  ],
+  "defaultAdminEmail": "workplace-admin@company.com"
 }
