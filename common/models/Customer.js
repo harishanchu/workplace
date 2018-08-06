@@ -6,9 +6,92 @@
  * @license See LICENSE
  */
 'use strict';
+const path = require('path');
+const qs = require('querystring');
+const app = require('../../server/server');
 
 module.exports = function (Customer) {
   let RoleMapping = require('loopback').RoleMapping;
+  let allowEmailDomains = [];
+  let defaultEmailDomain;
+
+  app.on('started', function () {
+    allowEmailDomains = app.config.get('app').allowEmailDomains;
+    defaultEmailDomain = app.config.get('app').defaultEmailDomain;
+
+    /* --------------------------
+     * Validations
+     * -------------------------
+     */
+    Customer.validate('email', function (onErr) {
+      let domain = this.email.split('@')[1];
+
+      if (allowEmailDomains.length && allowEmailDomains.indexOf(domain) === -1) {
+        onErr('domain');
+      }
+    }, {
+      message: {
+        domain: 'Please provide an email with valid domain. Supported domains are: ' + allowEmailDomains.join(', ')
+      }
+    });
+  });
+
+  /* ----------------------------
+   * Hooks
+   * ----------------------------
+   */
+
+  Customer.beforeRemote('create', function (ctx, user, next) {
+    if(ctx.req.body.email) {
+      let domain = ctx.req.body.email.split('@')[1];
+
+      if (!domain && defaultEmailDomain) {
+        ctx.req.body.email = ctx.req.body.email + '@' + defaultEmailDomain;
+      }
+    }
+
+    next();
+  });
+
+  /**
+   * Create settings model for user.
+   *
+   * Send verification email after registration if user is a parent user
+   * and email is not verified.
+   */
+  Customer.afterRemote('create', function (context, userInstance, next) {
+    // verification email.
+    if (!userInstance.emailVerified) {
+      let app = Customer.app;
+      let urlPath = joinUrlPath(
+        app.get('restApiRoot'),
+        Customer.http.path,
+        Customer.sharedClass.findMethodByName('confirm').http.path
+      );
+
+      let verifyHref = app.get('url').replace(/\/$/, '') + urlPath +
+        '?' + qs.stringify({
+          uid: '' + userInstance.id,
+          redirect: `${Customer.app.config.get('app').clientUrl}/`
+        });
+
+      let options = {
+        type: 'email',
+        to: userInstance.email,
+        from: Customer.app.config.get('app').emails.notification,
+        subject: 'Thanks for registering',
+        template: path.resolve(__dirname, '../../server/views/verify.ejs'),
+        redirect: `${Customer.app.config.get('app').clientUrl}/`,
+        user: userInstance,
+        verifyHref: verifyHref
+      };
+      userInstance.verify(options, function (err, response) {
+        next(err);
+      });
+    } else {
+      next();
+    }
+  });
 
   /* -------------------------
    *  API's
@@ -179,3 +262,15 @@ module.exports = function (Customer) {
   Customer.disableRemoteMethodByName('prototype.__get__accessTokens');
   Customer.disableRemoteMethodByName('prototype.__updateById__accessTokens');*/
 };
+
+function joinUrlPath(args) {
+  let result = arguments[0];
+
+  for (let ix = 1; ix < arguments.length; ix++) {
+    let next = arguments[ix];
+
+    result += result[result.length - 1] === '/' && next[0] === '/' ? next.slice(1) : next;
+  }
+
+  return result;
+}

@@ -1,0 +1,5 @@
+apps:
+  - script   : .
+    name     : 'workplace'
+    instances: 2
+    exec_mode: cluster

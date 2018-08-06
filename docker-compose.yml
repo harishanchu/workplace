@@ -1,0 +1,36 @@
+version: "2"
+networks:
+  mysql:
+    driver: bridge
+services:
+
+  mysql:
+    image: mysql:5.7.21
+    networks:
+      - mysql
+    volumes:
+      - ${PWD}/data/mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=password"
+      - "MYSQL_ROOT_HOST=%"
+
+  adminer:
+    image: adminer
+    networks:
+      - mysql
+    ports:
+      - "8085:8080"
+
+  workplace:
+    image: workplace
+    networks:
+      - mysql
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${PWD}:/app
+    depends_on:
+      - mysql
+

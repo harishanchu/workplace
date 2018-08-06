@@ -1,7 +1,14 @@
+/**
+ * Task.js
+ *
+ * @author: Harish Anchu <harishanchu@gmail.com>
+ * @copyright Copyright (c) 2018, Harish Anchu.
+ * @license See LICENSE
+ */
 'use strict';
 const app = require('../../server/server');
 
-module.exports = function(Task) {
+module.exports = function (Task) {
   let taskTypes;
 
   app.on('started', function () {
@@ -14,13 +21,20 @@ module.exports = function(Task) {
    * -------------------------
    */
 
-  Task.validatesInclusionOf('status', { in: ["open", "closed"] });
+  Task.validatesInclusionOf('status', {in: ["open", "closed"]});
 
-
+  /* -------------------------
+   *  API's
+   * -------------------------
+   */
   Task.types = function (cb) {
     cb(null, taskTypes);
   };
 
+  /* ---------------------------------
+   * Remote methods
+   * --------------------------------
+   */
   Task.remoteMethod('types', {
     returns: [
       {arg: 'body', type: 'array', root: true},

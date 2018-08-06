@@ -3,11 +3,14 @@
     "support": "support@company.com",
     "notification": "no-reply@company.com"
   },
-  "appUrl": "http://localhost:3004",
+  "appUrl": "http://localhost:3000",
+  "clientUrl": "http://localhost:3000",
   "taskTypes": [
     "Enhancement",
     "Bug",
     "Other"
   ],
-  "defaultAdminEmail": "workplace-admin@company.com"
+  "defaultAdminEmail": "workplace-admin@company.com",
+  "allowEmailDomains": ["gmail.com", "company.com"],
+  "defaultEmailDomain": "company.com"
 }

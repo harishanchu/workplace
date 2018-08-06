@@ -6,7 +6,7 @@ module.exports = function (server) {
   let router = server.loopback.Router();
 
   // Install a `/` route that returns server status
-  router.get('/', server.loopback.status());
+  // router.get('/', server.loopback.status());
 
   // Returns app version from package.json file
   router.get('/api/v1/version', (req, res) => {
