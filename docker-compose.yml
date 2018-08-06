@@ -29,8 +29,6 @@ services:
       - mysql
     ports:
       - "3000:3000"
-    volumes:
-      - ${PWD}:/app
     depends_on:
       - mysql
 
