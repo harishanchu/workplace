@@ -42,7 +42,7 @@ module.exports = function (Customer) {
    */
 
   Customer.beforeRemote('create', function (ctx, user, next) {
-    if(ctx.req.body.email) {
+    if (ctx.req.body.email) {
       let domain = ctx.req.body.email.split('@')[1];
 
       if (!domain && defaultEmailDomain) {
@@ -103,6 +103,14 @@ module.exports = function (Customer) {
    * custom logic
    */
   Customer.login = function (credentials, fn) {
+    if (credentials.email) {
+      let domain = credentials.email.split('@')[1];
+
+      if (!domain && defaultEmailDomain) {
+        credentials.email = credentials.email + '@' + defaultEmailDomain;
+      }
+    }
+
     this.super_.login.call(this, credentials, 'user', function (err, token) {
       // Default response token attribute name is id; we
       // will rename it here to accessToken. We will remove

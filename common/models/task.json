@@ -41,7 +41,10 @@
       "model": "TimeSheet",
       "foreignKey": "taskId",
       "options": {
-        "nestRemoting": true
+        "nestRemoting": true,
+        "http": {
+          "path": "time-sheets"
+        }
       }
     },
     "user": {
