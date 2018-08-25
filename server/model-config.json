@@ -19,6 +19,7 @@
       "emailVerificationRequired": true,
       "remoting": {
         "sharedMethods": {
+          "login": true,
           "logout": true,
           "create": true,
           "resetPassword": true,
