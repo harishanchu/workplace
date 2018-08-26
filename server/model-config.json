@@ -31,6 +31,7 @@
           "prototype.__create__timeSheets": true,
           "prototype.__updateById__timeSheets": true,
           "prototype.__destroyById__timeSheets": true,
+          "prototype.__destroyById__tasks": true,
           "prototype.__get__tasks": true,
           "prototype.__create__tasks": true,
           "prototype.__updateById__tasks": true

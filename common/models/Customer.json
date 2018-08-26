@@ -220,6 +220,12 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "__updateById__tasks"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__destroyById__tasks"
     }
   ],
   "methods": {}

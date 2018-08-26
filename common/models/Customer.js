@@ -8,6 +8,7 @@
 'use strict';
 const path = require('path');
 const qs = require('querystring');
+const g = require('loopback/lib/globalize');
 const app = require('../../server/server');
 
 module.exports = function (Customer) {
@@ -91,6 +92,22 @@ module.exports = function (Customer) {
     } else {
       next();
     }
+  });
+
+  Customer.beforeRemote('prototype.__destroyById__tasks', function (context, unused, next) {
+    context.instance.timeSheets.find({where: {taskId: context.args.fk}})
+      .then(function (data) {
+        if (data.length) {
+          let err = new Error(g.f('Task is associated with time sheets, hence cannot be deleted.'));
+          err.statusCode = 400;
+          err.code = 'TASK_ASSOCIATED_WITH_TIMESHEETS';
+
+          next(err);
+        } else {
+          next();
+        }
+      })
+      .catch(next);
   });
 
   /* -------------------------
