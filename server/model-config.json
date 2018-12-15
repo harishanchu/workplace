@@ -72,7 +72,8 @@
           "create": true,
           "prototype.patchAttributes": true,
           "deleteById": true,
-          "download": true
+          "download": true,
+          "destroyAllCustom": true
         }
       }
     }

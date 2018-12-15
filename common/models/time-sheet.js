@@ -124,6 +124,20 @@ module.exports = function (Timesheet) {
     });
   };
 
+  Timesheet.destroyAllCustom = function (ids, cb) {
+    Timesheet.destroyAll({
+      id: {
+        inq: ids
+      }
+    }, (err, info) => {
+      if (err) {
+        return cb(err)
+      } else {
+        cb(null, info)
+      }
+    })
+  };
+
   /* ---------------------------------
    * Remote methods
    * --------------------------------
@@ -144,6 +158,20 @@ module.exports = function (Timesheet) {
     description: 'Time sheets download',
     accessType: 'READ',
     http: {verb: 'get', path: '/download'},
+  });
+
+  Timesheet.remoteMethod('destroyAllCustom', {
+    isStatic: true,
+    description: 'Delete all matching records',
+    accessType: 'WRITE',
+    accepts: {arg: 'id', type: 'array', description: 'id\'s (which belongs to the current user) to delete '},
+    returns: {
+      arg: 'count',
+      type: 'object',
+      description: 'The number of instances deleted',
+      root: true,
+    },
+    http: {verb: 'del', path: '/'}
   });
 }
 ;

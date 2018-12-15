@@ -67,6 +67,12 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "deleteById"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "custom-owner",
+      "permission": "ALLOW",
+      "property": "destroyAllCustom"
     }
   ],
   "methods": {}
