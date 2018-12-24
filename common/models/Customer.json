@@ -5,7 +5,8 @@
   "idInjection": true,
   "options": {
     "validateUpsert": true,
-    "caseSensitiveEmail": true
+    "caseSensitiveEmail": true,
+    "rejectPasswordChangesViaPatchOrReplace": true
   },
   "http": {
     "path": "users"
@@ -54,7 +55,10 @@
     "dob": {
       "type": "date",
       "title": "Date of birth",
-      "example": "06/25/1985"
+      "example": "06/25/1985",
+      "mysql": {
+        "dataType": "date"
+      }
     },
     "gender": {
       "type": "string",

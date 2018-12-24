@@ -22,6 +22,7 @@
           "login": true,
           "logout": true,
           "create": true,
+          "prototype.patchAttributes": true,
           "resetPassword": true,
           "setPassword": true,
           "changePassword": true,

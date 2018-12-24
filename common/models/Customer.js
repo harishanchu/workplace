@@ -16,6 +16,10 @@ module.exports = function (Customer) {
   let allowEmailDomains = [];
   let defaultEmailDomain;
 
+  Customer.validatesDateOf('dob', {
+    message: 'is invalid'
+  });
+
   app.on('started', function () {
     allowEmailDomains = app.config.get('app').allowEmailDomains;
     defaultEmailDomain = app.config.get('app').defaultEmailDomain;
@@ -52,6 +56,24 @@ module.exports = function (Customer) {
     }
 
     next();
+  });
+
+  Customer.observe('before save', function (ctx, next) {
+    if (ctx.isNewInstance) {
+      return next();
+    }
+    const data = ctx.data || ctx.instance;
+    const isEmailChange = 'email' in data;
+
+    if (!isEmailChange) {
+      return next();
+    }
+
+    const err = new Error(
+      'Changing email is not allowed.');
+    err.statusCode = 422;
+    err.code = 'EMAIL_CHANGE_NOT_ALLOWED';
+    next(err);
   });
 
   /**
