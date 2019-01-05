@@ -19,6 +19,7 @@
       "emailVerificationRequired": true,
       "remoting": {
         "sharedMethods": {
+          "*": true,
           "login": true,
           "logout": true,
           "create": true,
@@ -35,7 +36,8 @@
           "prototype.__destroyById__tasks": true,
           "prototype.__get__tasks": true,
           "prototype.__create__tasks": true,
-          "prototype.__updateById__tasks": true
+          "prototype.__updateById__tasks": true,
+          "prototype.__get__stats": true
         }
       }
     }
@@ -117,5 +119,9 @@
         }
       }
     }
+  },
+  "Stats": {
+    "dataSource": "db",
+    "public": false
   }
 }

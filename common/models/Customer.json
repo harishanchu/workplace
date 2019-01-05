@@ -94,6 +94,14 @@
       "options": {
         "disableInclude": false
       }
+    },
+    "stats": {
+      "type": "hasOne",
+      "model": "Stats",
+      "foreignKey": "userId",
+      "options": {
+        "disableInclude": false
+      }
     }
   },
   "acls": [
@@ -230,6 +238,18 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "__destroyById__tasks"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "__get__stats"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$admin",
+      "permission": "ALLOW",
+      "property": "__get__stats"
     }
   ],
   "methods": {}

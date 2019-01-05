@@ -32,7 +32,14 @@
     }
   },
   "session": {},
-  "auth": {},
+  "auth": {
+    "loopback#token": {
+      "params": {
+        "currentUserLiteral": "me",
+        "model": "CustomerAccessToken"
+      }
+    }
+  },
   "parse": {},
   "routes": {
     "loopback#rest": {

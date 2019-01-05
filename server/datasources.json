@@ -6,7 +6,8 @@
     "password": "password",
     "name": "db",
     "connector": "mysql",
-    "user": "root"
+    "user": "root",
+    "multipleStatements": true
   },
   "email": {
     "name": "email",
