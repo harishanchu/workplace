@@ -229,6 +229,36 @@ module.exports = function (Customer) {
     });
   };
 
+
+  Customer.once('attached', function () {
+    Customer.app.once('started', function () {
+      let Stats = Customer.app.models.Stats;
+
+      Customer.prototype.__get__stats = async function () {
+        let userId = this.id;
+        let [
+          weeklyTotalDuration,
+          DailyDurationForLast7Days,
+          todayCompletedTasksCount,
+          currentWeekCompletedTasksCount,
+          openTasksCount,
+          currentWeekWorkedDays,
+          currentWeekResourceAllocationPerClient
+        ] = await Stats.getUserStats(userId);
+
+        return {
+          weeklyTotalDuration,
+          DailyDurationForLast7Days,
+          todayCompletedTasksCount,
+          currentWeekCompletedTasksCount,
+          openTasksCount,
+          currentWeekWorkedDays,
+          currentWeekResourceAllocationPerClient
+        }
+      }
+    });
+  });
+
   /* ---------------------------------
    * Override remote methods
    * --------------------------------

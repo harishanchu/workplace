@@ -19,7 +19,6 @@
       "emailVerificationRequired": true,
       "remoting": {
         "sharedMethods": {
-          "*": true,
           "login": true,
           "logout": true,
           "create": true,
@@ -122,6 +121,6 @@
   },
   "Stats": {
     "dataSource": "db",
-    "public": false
+    "public": true
   }
 }
