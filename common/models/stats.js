@@ -31,11 +31,12 @@ module.exports = function (Stats) {
       "status = 'completed' AND " +
       "userId = ?";
 
-    let currentWeekCompletedTasksCount = "select count(*) as count from TimeSheet " +
+    let dailyCompletedTasksForLast7Days = "select DAYNAME(`date`) as day, count(*) as count from TimeSheet " +
       "where " +
       "YEARWEEK(`date`) = YEARWEEK(CURDATE()) AND " +
       "status = 'completed' AND " +
-      "userId = ?";
+      "userId = ? " +
+      "GROUP BY date";
 
     let currentOpenTasksCount = "select count(*) as count from TimeSheet " +
       "where " +
@@ -62,7 +63,7 @@ module.exports = function (Stats) {
       weeklyTotalDuration,
       dailyDurationForLast7Days,
       todayCompletedTasksCount,
-      currentWeekCompletedTasksCount,
+      dailyCompletedTasksForLast7Days,
       currentOpenTasksCount,
       currentWeekWorkedDays,
       currentWeekResourceAllocationPerClient
@@ -79,13 +80,13 @@ module.exports = function (Stats) {
         data[0][0].duration,
         data[1],
         data[2][0].count,
-        data[3][0].count,
+        data[3],
         data[4][0].count,
         data[5][0].count,
         data[6]
       ];
     });
-  }
+  };
 
   function query(sql, params = []) {
     let connector = Stats.dataSource.connector;

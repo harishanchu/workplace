@@ -240,7 +240,7 @@ module.exports = function (Customer) {
           weeklyTotalDuration,
           DailyDurationForLast7Days,
           todayCompletedTasksCount,
-          currentWeekCompletedTasksCount,
+          dailyCompletedTasksForLast7Days,
           openTasksCount,
           currentWeekWorkedDays,
           currentWeekResourceAllocationPerClient
@@ -250,7 +250,7 @@ module.exports = function (Customer) {
           weeklyTotalDuration,
           DailyDurationForLast7Days,
           todayCompletedTasksCount,
-          currentWeekCompletedTasksCount,
+          dailyCompletedTasksForLast7Days,
           openTasksCount,
           currentWeekWorkedDays,
           currentWeekResourceAllocationPerClient
