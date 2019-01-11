@@ -243,7 +243,7 @@ module.exports = function (Customer) {
           dailyCompletedTasksForLast7Days,
           openTasksCount,
           currentWeekWorkedDays,
-          currentWeekResourceAllocationPerClient
+          last7daysResourceAllocationPerClient
         ] = await Stats.getUserStats(userId);
 
         return {
@@ -253,7 +253,7 @@ module.exports = function (Customer) {
           dailyCompletedTasksForLast7Days,
           openTasksCount,
           currentWeekWorkedDays,
-          currentWeekResourceAllocationPerClient
+          last7daysResourceAllocationPerClient
         }
       }
     });

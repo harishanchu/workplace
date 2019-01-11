@@ -15,5 +15,9 @@ module.exports = function (server) {
     res.send(version);
   });
 
+  router.get('/api/v1/config', (req, res) => {
+    res.send(server.config.get('clientConfig'));
+  });
+
   server.use(router);
 };

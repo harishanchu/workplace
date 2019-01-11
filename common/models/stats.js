@@ -48,7 +48,7 @@ module.exports = function (Stats) {
       "YEARWEEK(`date`) = YEARWEEK(CURDATE()) AND " +
       "userId = ?";
 
-    let currentWeekResourceAllocationPerClient = "select pj.clientId as clientId, client.name as clientName, " +
+    let last7daysResourceAllocationPerClient = "select pj.clientId as clientId, client.name as clientName, " +
       "SUM(`duration`) as duration from TimeSheet ts " +
       "LEFT JOIN Task task " +
       "ON (task.id = ts.taskId) " +
@@ -56,7 +56,7 @@ module.exports = function (Stats) {
       "ON (task.projectId = pj.id) " +
       "LEFT JOIN Client client " +
       "ON (pj.clientId = client.id) " +
-      "where YEARWEEK(`date`) = YEARWEEK(CURDATE()) AND ts.userId = 1 " +
+      "where ts.date >= DATE(NOW()) - INTERVAL 7 DAY AND ts.userId = 1 " +
       "GROUP BY pj.clientId";
 
     return query([
@@ -66,7 +66,7 @@ module.exports = function (Stats) {
       dailyCompletedTasksForLast7Days,
       currentOpenTasksCount,
       currentWeekWorkedDays,
-      currentWeekResourceAllocationPerClient
+      last7daysResourceAllocationPerClient
     ].join(";"), [
       [userId],
       [userId],
