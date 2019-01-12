@@ -23,7 +23,8 @@
       }
     },
     "comment": {
-      "type": "string"
+      "type": "string",
+      "length": 1000
     },
     "taskId": {
       "required": true

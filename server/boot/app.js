@@ -42,10 +42,28 @@ module.exports = (app, cb) => {
     }
   });
 
+  function handleError(err) {
+    console.error('Database initial scripts error.');
+    console.log(err);
+    setTimeout(() => process.exit(1));
+  }
 
-  migrate(function () {
-    createAdminUser(function () {
-      createClientsAndProjects(cb);
+  migrate(function (err) {
+    if (err) {
+      return handleError(err);
+    }
+    createAdminUser(function (err) {
+      if (err) {
+        return handleError(err);
+      }
+
+      createClientsAndProjects((err) => {
+        if (err) {
+          return handleError(err);
+        } else {
+          cb();
+        }
+      });
     });
   });
 
@@ -56,10 +74,6 @@ module.exports = (app, cb) => {
     let ds = app.dataSources.db;
 
     ds.autoupdate(function (err) {
-      if (err) {
-        console.error('Database initial scripts error.');
-      }
-
       cb(err);
     });
   }
@@ -83,13 +97,17 @@ module.exports = (app, cb) => {
             emailVerified: true
           },
           function (err, user) {
-            if (err) return cb(err);
+            if (err) {
+              return cb(err);
+            }
 
             // Create the super admin role
             Role.create(
               {name: 'admin'},
               function (err, role) {
-                if (err) cb(err);
+                if (err) {
+                  return cb(err);
+                }
 
                 // Ensure super admin role is assigned for the user.
                 role.principals.create({
