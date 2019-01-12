@@ -9,7 +9,9 @@
         "origin": true,
         "credentials": true,
         "maxAge": 86400,
-        "exposedHeaders": ["x-total-count"]
+        "exposedHeaders": [
+          "x-total-count"
+        ]
       }
     },
     "helmet#xssFilter": {},

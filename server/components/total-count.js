@@ -21,7 +21,7 @@ module.exports = function (app, options) {
         let filter = ctx.req.query.filter || {};
         let query = {};
 
-        if(filter) {
+        if (filter) {
           query.filter = filter;
         }
 

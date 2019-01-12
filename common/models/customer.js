@@ -132,6 +132,36 @@ module.exports = function (Customer) {
       .catch(next);
   });
 
+  /*--------------------------
+   * Listen for model events
+   *--------------------------
+   */
+
+  //send password reset link when password reset requested
+  Customer.on('resetPasswordRequest', function (info) {
+    let url = Customer.app.config.get('app').clientUrl + '/#/resetpassword/';
+    let template = Customer.app.loopback.template(
+      path.resolve(__dirname, '../../server/views/reset.ejs')
+    );
+
+    Customer.app.models.Email.send({
+      to: info.email,
+      from: Customer.app.config.get('app').emails.notification,
+      subject: 'Password reset',
+      html: template({
+        resetHref: url + info.accessToken.id,
+        name: info.user.name
+      })
+    }, function (err) {
+      if (err) {
+        //@todo: log error
+        console.log('> error sending password reset email');
+        console.log(err)
+      }
+    });
+  });
+
+
   /* -------------------------
    *  API's
    * -------------------------

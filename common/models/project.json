@@ -22,7 +22,7 @@
     }
   },
   "indexes": {
-    "UNIQUE_INDEX":  {
+    "UNIQUE_INDEX": {
       "columns": "`clientId`,`name`",
       "kind": "unique"
     }

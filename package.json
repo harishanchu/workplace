@@ -1,10 +1,10 @@
 {
   "name": "Workplace",
   "version": "1.0.0",
-  "released": "2018-04-08",
+  "released": "2019-01-12",
   "main": "server/server.js",
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "scripts": {
     "lint": "eslint .",
@@ -18,10 +18,10 @@
     "cors": "^2.5.2",
     "helmet": "^3.10.0",
     "json2csv": "^4.2.0",
-    "loopback": "^3.0.0",
+    "loopback": "^3.24.2",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^5.0.0",
-    "loopback-connector-mysql": "^5.2.0",
+    "loopback-connector-mysql": "^5.3.1",
     "loopback-console": "^1.1.0",
     "nodejs-config": "^1.0.1",
     "serve-favicon": "^2.0.1",
@@ -33,9 +33,9 @@
     "nsp": "^2.1.0"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "https://github.com/harishanchu/workplace"
   },
-  "license": "UNLICENSED",
-  "description": "Workplace"
+  "license": "MIT",
+  "description": "Timesheet application"
 }

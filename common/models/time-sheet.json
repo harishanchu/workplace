@@ -19,7 +19,7 @@
       "type": "Date",
       "defaultFn": "now",
       "mysql": {
-        "dataType":"Date"
+        "dataType": "Date"
       }
     },
     "comment": {
