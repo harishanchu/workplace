@@ -118,7 +118,6 @@ module.exports = (app, cb) => {
                   cb(err);
                 });
               });
-
           });
       }
     });
@@ -148,7 +147,6 @@ module.exports = (app, cb) => {
         });
       }
     });
-
   }
 
   app.set('url', app.config.get('app').appUrl);

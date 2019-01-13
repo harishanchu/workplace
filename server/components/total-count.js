@@ -32,9 +32,40 @@ module.exports = function (app, options) {
     }
   };
 
+  let applyXTotalForRelated = function (ctx, output, next) {
+    const relatedModel = app.models[ctx.resultType[0]];
+
+    let filter;
+    if (ctx.args && ctx.args.filter) {
+      filter = ctx.args.filter.where;
+    }
+    relatedModel.count(filter, function(err, count) {
+      if(err) {
+        throw new Error(err);
+      }
+      if (!ctx.res._headerSent) {
+        ctx.res.set('x-total-count', count);
+        next();
+      } else {
+        throw new Error('Headers already sent !');
+      }
+    });
+  };
+
   let pattern = options && Array.isArray(options.pattern) ? options.pattern : ['*.find'];
 
   for (let i = pattern.length - 1; i >= 0; i--) {
     remotes.after(pattern[i], applyXTotal);
+  }
+
+  let patternsForRelated = options.patternForRelated;
+  for(let key in patternsForRelated) {
+    let model = app.models[key];
+
+    if(model) {
+      for(let i = patternsForRelated[key].length - 1; i >= 0; i--) {
+        model.afterRemote(patternsForRelated[key][i], applyXTotalForRelated);
+      }
+    }
   }
 };

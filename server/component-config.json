@@ -5,9 +5,13 @@
   },
   "./components/total-count": {
     "pattern": [
-      "**.__get__timeSheets",
-      "**.__get__tasks",
       "**.find"
-    ]
+    ],
+    "patternForRelated": {
+      "Customer": [
+        "**.__get__timeSheets",
+        "**.__get__tasks"
+      ]
+    }
   }
 }
