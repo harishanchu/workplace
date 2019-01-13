@@ -56,7 +56,7 @@ module.exports = function (Stats) {
       "ON (task.projectId = pj.id) " +
       "LEFT JOIN Client client " +
       "ON (pj.clientId = client.id) " +
-      "where ts.date >= DATE(NOW()) - INTERVAL 7 DAY AND ts.userId = 1 " +
+      "where ts.date >= DATE(NOW()) - INTERVAL 7 DAY AND ts.userId = ? " +
       "GROUP BY pj.clientId";
 
     return query([

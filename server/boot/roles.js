@@ -1,7 +1,7 @@
 /**
  * roles.js
  *
- * @author: Harish Anchu <harishanchu@wimoku.com>
+ * @author: Harish Anchu <harishanchu@gmail.com>
  * @copyright Copyright (c) 2018, Harish Anchu.
  */
 

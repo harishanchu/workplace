@@ -244,12 +244,6 @@
       "principalId": "$owner",
       "permission": "ALLOW",
       "property": "__get__stats"
-    },
-    {
-      "principalType": "ROLE",
-      "principalId": "$admin",
-      "permission": "ALLOW",
-      "property": "__get__stats"
     }
   ],
   "methods": {}
