@@ -24,7 +24,7 @@ services:
       - "8085:8080"
 
   workplace:
-    image: workplace
+    build: .
     networks:
       - mysql
     ports:
