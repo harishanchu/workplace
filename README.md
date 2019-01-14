@@ -26,7 +26,7 @@ UI for this project is compiled from repository: [Workplace UI](https://github.c
 - Clone the repository.
 - Modify [configuration](#configuration) files in the repository directory as needed.
 - Install dependencies by running command `npm install --production`.
-- Run the application with command `npm start`.
+- Run the application with command `npm run start-production`.
 
 After installation application can be accessed with url: `http://localhost:3000`.
 

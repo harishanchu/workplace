@@ -1,6 +1,8 @@
 {
   "initial:before": {
-    "loopback#favicon": {}
+    "loopback#favicon": {
+      "params": "client/favicon.ico"
+    }
   },
   "initial": {
     "compression": {},

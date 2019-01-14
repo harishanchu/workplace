@@ -1,6 +1,6 @@
 {
   "db": {
-    "host": "0.0.0.0",
+    "host": "mysql",
     "port": 3307,
     "database": "workplace",
     "password": "password",
