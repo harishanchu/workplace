@@ -8,23 +8,23 @@ UI for this project is compiled from repository: [Workplace UI](https://github.c
 
 ## Installation
 
-#### Method 1
+#### Method 1 (With docker and docker-compose)
 
 - Clone the repository.
 - Modify [configuration](#configuration) files in the repository directory as needed.
-- Open terminal in the repository directory and run command `docker-compose up mysql adminer`.
+- Open terminal in the repository directory and run command `docker-compose up -d mysql adminer`.
 - Navigate to `http://localhost:8085/?server=mysql&username=root` in your browser.
 - Login by providing password as `password`.
 - Create a database named `workplace`.
 - Head back to terminal and run command `docker-compose up`.
 
-#### Method 2
+#### Method 2 (Run directly on the workstation)
 
 - Install NodeJs(version >=8) in your workstation.
 - Install mysql(version >= 5.7.21) server.
 - Create database table `workplace`
 - Clone the repository.
-- Modify [configuration](#configuration) files in the repository directory as needed.
+- Modify [configuration](#configuration) files in the repository directory as needed(modify db host address etc).
 - Install dependencies by running command `npm install --production`.
 - Run the application with command `npm run start-production`.
 

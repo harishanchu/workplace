@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node .",
-    "start-production": "NODE_ENV=production node .",
+    "start-production": "NODE_ENV=development node .",
     "posttest": "npm run lint && nsp check",
     "console": "loopback-console"
   },
