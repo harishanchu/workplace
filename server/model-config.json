@@ -89,7 +89,8 @@
           "find": true,
           "create": true,
           "prototype.patchAttributes": true,
-          "deleteById": true
+          "deleteById": true,
+          "destroyAllCustom": true
         }
       }
     }
@@ -102,7 +103,8 @@
           "find": true,
           "create": true,
           "prototype.patchAttributes": true,
-          "deleteById": true
+          "deleteById": true,
+          "destroyAllCustom": true
         }
       }
     }
