@@ -33,6 +33,7 @@
     "eslint-config-loopback": "^8.0.0",
     "nsp": "^2.1.0"
   },
+  "author": "Harish Anchu <harishanchu@gmail.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/harishanchu/workplace"
