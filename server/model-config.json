@@ -19,6 +19,7 @@
       "emailVerificationRequired": true,
       "remoting": {
         "sharedMethods": {
+          "find": true,
           "login": true,
           "logout": true,
           "create": true,

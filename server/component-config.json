@@ -9,8 +9,15 @@
     ],
     "patternForRelated": {
       "Customer": [
+        "find",
         "**.__get__timeSheets",
         "**.__get__tasks"
+      ],
+      "Client": [
+        "find"
+      ],
+      "Project": [
+        "find"
       ]
     }
   }

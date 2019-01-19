@@ -76,6 +76,13 @@
         "disableInclude": true
       }
     },
+    "roles": {
+      "type": "hasMany",
+      "model": "Role",
+      "foreignKey": "principalId",
+      "keyThrough": "roleId",
+      "through": "RoleMapping"
+    },
     "timeSheets": {
       "type": "hasMany",
       "model": "TimeSheet",
