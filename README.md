@@ -2,6 +2,8 @@
 
 Time sheet application for organizations.
 
+![Workplace demonstration](./demo.gif)
+
 Created with [Loopback](https://loopback.io/doc/en/lb3/), [Angular](https://v6.angular.io) and [Angular Material](https://v6.material.angular.io/)
 
 UI for this project is compiled from repository: [Workplace UI](https://github.com/harishanchu/workplace-ui)
@@ -18,13 +20,13 @@ UI for this project is compiled from repository: [Workplace UI](https://github.c
 - Create a database named `workplace`.
 - Head back to terminal and run command `docker-compose up`.
 
-#### Method 2 (Run directly on the workstation)
+#### Method 2 (Run directly on your workstation)
 
-- Install NodeJs(version >=8) in your workstation.
-- Install mysql(version >= 5.7.21) server.
-- Create database table `workplace`
-- Clone the repository.
-- Modify [configuration](#configuration) files in the repository directory as needed(modify db host address etc).
+- Install NodeJs(version >=8).
+- Install and start mysql(version >= 5.7.21) server.
+- Create a database table `workplace`
+- Clone this repository.
+- Modify [configuration](#configuration) files in the repository directory as needed(modify db host address, smtp configuration etc).
 - Install dependencies by running command `npm install --production`.
 - Run the application with command `npm run start-production`.
 
@@ -45,10 +47,9 @@ Admin users will have admin functionality enabled in the app.
 ## Conventions
 
 - When a time sheet is created an associated task is created for the time sheet.
-- Open tasks can be referred in new time sheets.
+- Open tasks can be linked to new time sheets by using the link button from the top right corner of time sheet entry popup.
 - When a time sheet is marked as completed the associated task will be marked as closed.
 
 ## To do
 
 - Employee clock in/out.
-- Employee management functionality for admin users.
