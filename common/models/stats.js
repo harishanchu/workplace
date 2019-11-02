@@ -38,9 +38,9 @@ module.exports = function (Stats) {
       "userId = ? " +
       "GROUP BY date";
 
-    let currentOpenTasksCount = "select count(*) as count from TimeSheet " +
+    let currentOpenTasksCount = "select count(*) as count from Task " +
       "where " +
-      "status = 'inProgress' AND " +
+      "status = 'open' AND " +
       "userId = ?";
 
     let currentWeekWorkedDays = "select count(DISTINCT date) as count from TimeSheet " +

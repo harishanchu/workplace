@@ -135,6 +135,44 @@ module.exports = function (Customer) {
       .catch(next);
   });
 
+  Customer.afterRemote('prototype.__updateById__tasks', function (context, taskInstance, next) {
+    let connector = Customer.dataSource.connector;
+    let status;
+    let userId = taskInstance.userId;
+    let taskId = context.args.fk;
+
+    // Update status of latest associated timsheet based on task status.
+
+    if (context.args.data && context.args.data.status) {
+      if (context.args.data.status === "open") {
+        status = 'inProgress';
+      } else {
+        status = 'completed';
+      }
+
+      connector.query(
+        'UPDATE TimeSheet ' +
+        'SET status = "' + status +
+        '" WHERE taskId = ? AND ' +
+        'userId = ? ' +
+        'ORDER BY date DESC ' +
+        'LIMIT 1;',
+        [taskId, userId],
+        (err, rows) => {
+          if(err) {
+            console.log(err);
+
+            next(new Err('Failed to update associated timesheet.'))
+          } else {
+            next()
+          }
+        }
+      )
+    } else {
+      next();
+    }
+  });
+
   /*--------------------------
    * Listen for model events
    *--------------------------
@@ -226,8 +264,7 @@ module.exports = function (Customer) {
         err.code = 'USER_NOT_FOUND';
 
         return callback(err);
-      }
-      else {
+      } else {
         const Role = Customer.app.models.Role;
         const RoleMapping = Customer.app.models.RoleMapping;
 
@@ -496,14 +533,14 @@ module.exports = function (Customer) {
    * @param {Error} err
    * @promise
    */
-  Customer.confirm = function(uid, token, redirect, fn) {
+  Customer.confirm = function (uid, token, redirect, fn) {
     fn = fn || utils.createPromiseCallback();
-    this.findById(uid, function(err, user) {
+    this.findById(uid, function (err, user) {
       if (err) {
         fn(err);
       } else {
         if (user && user.verificationToken === token) {
-          user.updateAttributes({verificationToken: null, emailVerified: true}, function(err) {
+          user.updateAttributes({verificationToken: null, emailVerified: true}, function (err) {
             if (err) {
               fn(err);
             } else {
