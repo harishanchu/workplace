@@ -1,6 +1,6 @@
 {
-  "name": "Workplace",
-  "version": "1.0.0",
+  "name": "workplace",
+  "version": "1.0.1",
   "released": "2019-01-12",
   "main": "server/server.js",
   "engines": {
