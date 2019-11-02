@@ -20,3 +20,4 @@ npm-debug.log
 server/datasources.development.json
 data
 server/*.localdev.*
+config/localdev
