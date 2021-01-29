@@ -14,7 +14,7 @@
     "console": "loopback-console"
   },
   "dependencies": {
-    "assign-deep": "^0.4.7",
+    "assign-deep": "^0.4.8",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
     "helmet": "^3.10.0",
